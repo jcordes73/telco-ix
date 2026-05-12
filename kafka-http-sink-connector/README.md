@@ -19,25 +19,25 @@ This implementation uses the [Quarkus](https://quarkus.io/) framework for implem
 ## Configuration
 The main source of configuration is **src/main/resources/application.properties**.
 
-For Kubernetes the configuration can be externalized in a **ConfigMap** named **kafka-http-sink-connector-config**:
+For Kubernetes the configuration can be externalized in a **Secret** named **kafka-http-sink-connector-config**:
 
 |Property|Description|Values|Default|
 |--------|-----------|------|-------|
-|http.url|The URL of the HTTP endpoint|Text|http://localhost/|
-|http.method|The HTTP method to use when calling the HTTP endpoint|POST,GET,PUT|POST|
-|http.content-type|The content-type of the payload|text,application/json|application/json|
+|HTTP_URL|The URL of the HTTP endpoint|Text|http://localhost/|
+|HTTP_METHOD|The HTTP method to use when calling the HTTP endpoint|POST,GET,PUT|POST|
+|HTTP_CONTENT_TYPE|The content-type of the payload|text,application/json|application/json|
 |http.auth|The authentication method to use for the HTTP endpoint|none,basic,oidc|none|
-|http.auth.basic.username|The Basic authentication username|Text|test|
-|http.auth.basic.password|The Basic authentication password|Text|test|
-|http.auth.oidc|If OIDC should be enabled when authenticating with the HTTP endpoint|true,false|true| 
-|http.auth.oidc.server.url|The Authentication Server URL, f.e. *https://keycloak/realm/realm-name* for Keycloak| URL |-| 
-|http.auth.oidc.client_id|The OIDC Client ID | Text | - |
-|http.auth.oidc.client_secret|The OIDC Client Secret | Text | - |
-|kafka.brokers|The Kafka Broker initial URL|URL|-|
-|kafka.username|The Kafka username|Text|kafka-admin|
-|kafka.password|The Kafka password|Text|openshift|
-|kafka.topic|The Kafka topic to consume messages from|Text|test|
-|kafka.dlq|The Kafka Topic to use for DLQ messages|Text|dlq|
+|HTTP_AUTH_BASIC_USERNAME|The Basic authentication username|Text|test|
+|HTTP_AUTH_BASIC_PASSWORD|The Basic authentication password|Text|test|
+|HTTP_AUTH_OIDC|If OIDC should be enabled when authenticating with the HTTP endpoint|true,false|false| 
+|HTTP_AUTH_OIDC_SERVER_URL|The Authentication Server URL, f.e. *https://keycloak/realm/realm-name* for Keycloak| URL |-| 
+|HTTP_AUTH_OIDC_CLIENT_ID|The OIDC Client ID | Text | - |
+|HTTP_AUTH_OIDC_CLIENT_SECRET|The OIDC Client Secret | Text | - |
+|KAFKA_BROKERS|The Kafka Broker initial URL|URL|-|
+|KAKFA_USERNAME|The Kafka username|Text|kafka-admin|
+|KAFKA_PASSWORD|The Kafka password|Text|openshift|
+|KAFKA_TOPIC_INCOMING|The Kafka topic to consume messages from|Text|test|
+|KAFKA_TOPIC_DLQ|The Kafka Topic to use for DLQ messages|Text|dlq|
 
 For the configuration there are currently these limitations:
 
