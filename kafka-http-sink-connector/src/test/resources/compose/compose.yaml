@@ -1,0 +1,50 @@
+name: kafka-http-sink-connector
+services:
+  wiremock:
+    container_name: wiremock
+    image: docker.io/wiremock/wiremock:3.13.2
+    restart: "no"
+    ports:
+      - '8280:8080' 
+  kafka:
+    container_name: kafka
+    image: docker.io/redpandadata/redpanda:v26.1.7
+    restart: "no"
+    ports:
+      - '9092:9092'
+      - '9644:9644'
+    volumes:
+      - ./kafka/redpanda/etc/redpanda:/etc/redpanda:z
+  kafka-setup-admin:
+    image: docker.io/redpandadata/redpanda:v26.1.7
+    command: security user create kafka-admin -p 'openshift' --mechanism SCRAM-SHA-512 -X admin.hosts=kafka:9644
+    links:
+      - kafka
+    depends_on:
+      - kafka
+  kafka-setup-sasl:
+    image: docker.io/redpandadata/redpanda:v26.1.7
+    command: cluster config set sasl_mechanisms '["SCRAM","PLAIN"]' -X user=kafka-admin -X pass='openshift' -X sasl.mechanism=SCRAM-SHA-512 -X admin.hosts=localhost:9644
+    links:
+      - kafka-setup-admin
+    depends_on:
+      - kafka-setup-admin
+  kafka-setup-superusers:
+    image: docker.io/redpandadata/redpanda:v26.1.7
+    command: cluster config set superusers '["kafka-admin"]' -X user=kafka-admin -X pass='openshift' -X sasl.mechanism=SCRAM-SHA-512 -X admin.hosts=localhost:9644
+    links:
+      - kafka-setup-sasl
+    depends_on:
+      - kafka-setup-sasl
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:latest
+    restart: "no"
+    ports:
+      - '8180:8080'
+    environment: 
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    command: "start-dev --import-realm"
+    volumes:
+      - './keycloak:/opt/keycloak/data/import:z'

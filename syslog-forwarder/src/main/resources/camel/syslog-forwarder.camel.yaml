@@ -1,0 +1,20 @@
+- route:
+    id: receiveSyslog
+    from:
+      id: from-8462
+      uri: netty
+      parameters:
+        protocol: tcp
+        host: localhost
+        port: 1514
+        allowDefaultCodec: false
+        sync: false
+      steps:
+        - unmarshal:
+            id: unmarshal-1535
+            syslog: {}
+        - to:
+            id: to-3185
+            uri: kafka
+            parameters:
+              topic: syslog
