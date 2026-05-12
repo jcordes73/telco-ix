@@ -106,8 +106,12 @@ quarkus deploy
 
 In case you want to build a container image and then use a  **deployment** resource on Kubernetes, this can also be done:
 
-First build the container image (using Podman in this example):
-
+First build the container image on OpenShift
 ```bash
-podman build -f src/main/docker/Dockerfile.jvm -t quarkus/kafka-http-sink-connector .
+./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.openshift.namespace=kafka-http-sink-connector -DskipTests
 ```
+The use the OpenShift client (oc) to create a **Deployment**
+```bash
+oc create -f src/main/resources/openshift/deployment.yaml
+```
+To launch other instances of the **Kafka HTTP Sink Connector** create a secret with the new settings, another **deployment.yaml**, exchanging the **name** and the **app** label. Don't forget to change the reference to the secret you created just now.

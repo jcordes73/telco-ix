@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-http-sink-connector
+  labels:
+    app: kafka-http-sink-connector
+  annotations:
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "kafka-http-sink-connector:1.0.0-SNAPSHOT"
+          },
+          "fieldPath": "spec.template.spec.containers[0].image"
+        }
+      ]
+spec:
+  replicas: 1
+  selector:
+    matchLabels:  
+      app: kafka-http-sink-connector
+  template:
+    metadata:
+      labels:
+        app: kafka-http-sink-connector
+    spec:
+      containers:
+        - name: kafka-http-sink-connector
+          image: kafka-http-sink-connector:1.0.0-SNAPSHOT
+          imagePullPolicy: Always
+          envFrom:
+          - secretRef:
+              name: kafka-http-sink-connector
+          ports:
+            - name: kafka-http-sink-connector
+              containerPort: 8080
+              protocol: TCP
