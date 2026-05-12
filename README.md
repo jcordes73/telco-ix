@@ -17,7 +17,7 @@ Currently the following use-cases have been implemented
 
 | Use-Case  | Description | Repository |
 |-----------|-------------|------------|
-|Kafka Sink Connector| Provides functionality similar to the Confluent Kafka Sink connector. | [Kafka Sink Connector](./kafka-sink-connector/)
+|Kafka Sink Connector| Provides functionality similar to the Confluent Kafka Sink connector. | [Kafka Sink Connector](./kafka-http-sink-connector/)
 |Syslog Forwarder|Consumes Syslog messages via TCP and puts them onto a Kafka topic| [Syslog Forwarder](./syslog-forwarder/)
 
 # Prerequisites
