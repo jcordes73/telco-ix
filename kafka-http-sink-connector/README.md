@@ -26,7 +26,7 @@ For Kubernetes the configuration can be externalized in a **Secret** named **kaf
 |HTTP_URL|The URL of the HTTP endpoint|Text|http://localhost/|
 |HTTP_METHOD|The HTTP method to use when calling the HTTP endpoint|POST,GET,PUT|POST|
 |HTTP_CONTENT_TYPE|The content-type of the payload|text,application/json|application/json|
-|http.auth|The authentication method to use for the HTTP endpoint|none,basic,oidc|none|
+|HTTP_AUTH|The authentication method to use for the HTTP endpoint|none,basic,oidc|none|
 |HTTP_AUTH_BASIC_USERNAME|The Basic authentication username|Text|test|
 |HTTP_AUTH_BASIC_PASSWORD|The Basic authentication password|Text|test|
 |HTTP_AUTH_OIDC|If OIDC should be enabled when authenticating with the HTTP endpoint|true,false|false| 
